@@ -28,13 +28,16 @@ final class BRLGPD_AJAX
         $payload = BRLGPD_Consent_Cookie::get();
         $choices = (isset($payload['choices']) && is_array($payload['choices'])) ? $payload['choices'] : [];
 
+        // só categorias opcionais válidas
         $choices = BRLGPD_Utils::filter_choices_by_categories($choices);
 
         $has = BRLGPD_Consent_Cookie::has_valid_consent();
         $renew = BRLGPD_Consent_Cookie::should_renew($policy);
 
+        // Se policy mudou, forçamos UI a mostrar como "sem consentimento" (banner)
         if ($renew) {
             $has = false;
+            // mantém choices zeradas (UI)
             $choices = BRLGPD_Utils::filter_choices_by_categories([]);
         }
 
@@ -100,6 +103,7 @@ final class BRLGPD_AJAX
 
         BRLGPD_Consent_Log::maybe_log(['choices' => $choices], $policy);
 
+        // ✅ devolve também choices para o JS já aplicar sem depender de HTML (cache)
         wp_send_json_success([
             'message' => 'saved',
             'choices' => $choices,

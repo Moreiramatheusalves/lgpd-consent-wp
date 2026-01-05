@@ -1,15 +1,15 @@
 <?php
 
 /**
- * Plugin Name:       LGPD Consent BRENIAC
- * Plugin URI:        https://pluginswp.breniacsoftec.com/
+ * Plugin Name:       BR LGPD Consent
+ * Plugin URI:        https://breniacsoftec.com/br-lgpd-consent/
  * Description:       Banner de consentimento LGPD com categorias, bloqueio de scripts e logs opcionais.
- * Version:           1.0.0
+ * Version:           1.0.1
  * Author:            BR Eniac SofTec
  * Author URI:        https://breniacsoftec.com
  * Text Domain:       br-lgpd-consent
  * Domain Path:       /languages
- * Update URI:        https://github.com/Moreiramatheusalves/lgpd-consent-wp
+ * Update URI:        https://github.com/Moreiramatheusalves/br-lgpd-consent
  */
 
 if (!defined('ABSPATH')) exit;
@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) exit;
 define('BRLGPD_FILE', __FILE__);
 define('BRLGPD_DIR', plugin_dir_path(__FILE__));
 define('BRLGPD_URL', plugin_dir_url(__FILE__));
-define('BRLGPD_VERSION', '1.0.0');
+define('BRLGPD_VERSION', '1.0.1');
 
 require_once BRLGPD_DIR . 'includes/class-constants.php';
 require_once BRLGPD_DIR . 'includes/class-utils.php';
@@ -47,20 +47,3 @@ register_activation_hook(__FILE__, function () {
 add_action('plugins_loaded', function () {
     BRLGPD_Plugin::instance();
 });
-
-if (is_admin()) {
-    $puc_path = WPAS_PLUGIN_DIR . 'vendor/plugin-update-checker/plugin-update-checker.php';
-    if (file_exists($puc_path)) {
-        require_once $puc_path;
-
-        $updateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
-            'https://github.com/Moreiramatheusalves/lgpd-consent-wp/',
-            __FILE__,
-            'lgpd-consent-wp'
-        );
-
-        $updateChecker->getVcsApi()->enableReleaseAssets();
-
-        $updateChecker->setBranch('main');
-    }
-}
