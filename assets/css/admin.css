@@ -1,0 +1,30 @@
+.brlgpd-admin-wrap .brlgpd-card {
+  background: #fff;
+  border: 1px solid #dcdcde;
+  border-radius: 12px;
+  padding: 14px;
+  margin: 14px 0;
+}
+
+.brlgpd-admin-wrap .brlgpd-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 782px) {
+  .brlgpd-admin-wrap .brlgpd-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.brlgpd-admin-wrap .brlgpd-muted {
+  color: #646970;
+  font-size: 13px;
+}
+
+.brlgpd-table-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
