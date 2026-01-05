@@ -70,15 +70,13 @@
     }
 
     function allOptionalKeys() {
-      // 1) chaves vindas do PHP (pode ficar desatualizado se o HTML/JS foi cacheado)
       const apiKeys = Array.isArray(api.optional_keys) ? api.optional_keys : [];
 
-      // 2) fallback: lê do DOM (sempre reflete as categorias realmente renderizadas no modal)
       const domKeys = [];
       const modal = getModal();
       if (modal) {
         modal.querySelectorAll("input[type=checkbox][data-brlgpd-cat]").forEach((el) => {
-          if (el.disabled) return; // ignora always_active
+          if (el.disabled) return;
           const raw = el.getAttribute("data-brlgpd-cat") || "";
           const key = normalizeKey(raw);
           if (key) domKeys.push(key);
@@ -91,7 +89,6 @@
         .concat(domKeys)
         .filter((k) => k.length);
 
-      // unique
       return Array.from(new Set(merged));
     }
 
@@ -101,7 +98,6 @@
 
       const map = (choices && typeof choices === "object") ? choices : {};
       modal.querySelectorAll("input[type=checkbox][data-brlgpd-cat]").forEach((el) => {
-        // não mexe nos disabled (always_active)
         if (el.disabled) return;
 
         const raw = el.getAttribute("data-brlgpd-cat") || "";
@@ -146,15 +142,12 @@
 
       const data = json.data;
 
-      // Mantém a lista de categorias opcionais sincronizada (importante quando o HTML/JS vem de cache)
       if (data.optional_keys && Array.isArray(data.optional_keys)) {
         api.optional_keys = data.optional_keys;
       }
 
-      // Atualiza checkboxes do modal
       applyChoicesToModal(data.choices || {});
 
-      // Se já tem consent e policy ok, some o banner (mesmo se HTML veio cacheado)
       if (data.has_consent && !data.should_renew) {
         hideBanner();
       }
@@ -174,14 +167,10 @@
 
       const json = await postConsent({ choices });
       if (json && json.success) {
-        // aplica estado devolvido pelo servidor (sem depender do HTML)
         if (json.data && json.data.choices) applyChoicesToModal(json.data.choices);
 
         closeModal();
         hideBanner();
-
-        // Se quiser manter o reload, pode. Mas com cache, não confie nele.
-        // window.location.reload();
       }
     }
 
@@ -195,7 +184,6 @@
 
         closeModal();
         hideBanner();
-        // window.location.reload();
       }
     }
 
@@ -208,7 +196,6 @@
 
         closeModal();
         hideBanner();
-        // window.location.reload();
       }
     }
 
@@ -219,7 +206,6 @@
       if (openEl) {
         e.preventDefault();
         openModal();
-        // ✅ sempre sincroniza ao abrir (garante MIDIA/novas categorias marcadas certo)
         await refreshStateAndUI();
         return;
       }
@@ -250,7 +236,6 @@
       if (e.key === "Escape") closeModal();
     });
 
-    // ✅ na carga da página, corrige estado mesmo com cache
     refreshStateAndUI();
   });
 })();

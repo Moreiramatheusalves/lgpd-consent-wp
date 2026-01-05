@@ -10,7 +10,5 @@ final class BRLGPD_REST
 
     public static function register_routes(): void
     {
-        // MVP: sem rotas públicas para evitar superfícies desnecessárias.
-        // Futuro: rotas somente leitura para status, com cuidado.
     }
 }

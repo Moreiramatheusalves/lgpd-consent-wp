@@ -5,7 +5,6 @@ final class BRLGPD_Consent_Cookie
 {
     private static function b64url_encode(string $raw): string
     {
-        // Cookie-safe: sem + / =
         return rtrim(strtr(base64_encode($raw), '+/', '-_'), '=');
     }
 
@@ -14,12 +13,10 @@ final class BRLGPD_Consent_Cookie
         $raw = (string)$raw;
         if ($raw === '') return false;
 
-        // 1) compat: base64 antigo (pode vir com + virando espaço)
         $try = str_replace(' ', '+', $raw);
         $json = base64_decode($try, true);
         if ($json !== false) return $json;
 
-        // 2) base64url (novo)
         $b64 = strtr($raw, '-_', '+/');
         $pad = strlen($b64) % 4;
         if ($pad) $b64 .= str_repeat('=', 4 - $pad);
@@ -53,12 +50,10 @@ final class BRLGPD_Consent_Cookie
 
         $cats = BRLGPD_Utils::get_categories();
 
-        // always_active direto
         if (!empty($cats[$category]) && !empty($cats[$category]['always_active'])) {
             return true;
         }
 
-        // fallback: normaliza chaves das categorias
         foreach ($cats as $k => $cat) {
             $nk = BRLGPD_Utils::normalize_category_key((string)$k);
             if ($nk === $category && !empty($cat['always_active'])) {
@@ -102,7 +97,6 @@ final class BRLGPD_Consent_Cookie
         $now = time();
         $exp = $now + (DAY_IN_SECONDS * $renew_days);
 
-        // garante que só salva categorias opcionais válidas
         $choices = BRLGPD_Utils::filter_choices_by_categories($choices);
 
         $payload = [
@@ -116,12 +110,10 @@ final class BRLGPD_Consent_Cookie
         $json = wp_json_encode($payload);
         if (!$json) return false;
 
-        // ✅ base64url (não quebra no $_COOKIE)
         $cookie = self::b64url_encode($json);
 
         $secure = is_ssl();
 
-        // ✅ seta em múltiplos paths para evitar duplicidade do mesmo cookie (\/ e subpastas do WP)
         $paths = ['/'];
         foreach (['SITECOOKIEPATH', 'COOKIEPATH', 'ADMIN_COOKIE_PATH', 'PLUGINS_COOKIE_PATH'] as $const) {
             if (defined($const)) {
@@ -129,7 +121,6 @@ final class BRLGPD_Consent_Cookie
                 if ($v !== '') $paths[] = $v;
             }
         }
-        // normaliza e remove duplicados
         $paths = array_values(array_unique(array_filter(array_map(function ($path) {
             $path = trim((string)$path);
             if ($path === '') return null;
@@ -145,7 +136,6 @@ final class BRLGPD_Consent_Cookie
             'samesite' => 'Lax',
         ];
 
-        // ✅ só seta domain se tiver valor
         if (defined('COOKIE_DOMAIN') && is_string(COOKIE_DOMAIN) && COOKIE_DOMAIN !== '') {
             $args['domain'] = COOKIE_DOMAIN;
         }
@@ -156,7 +146,6 @@ final class BRLGPD_Consent_Cookie
             $ok = setcookie(BRLGPD_Constants::COOKIE_NAME, $cookie, $args) || $ok;
         }
 
-        // garante leitura no mesmo request
         if ($ok) {
             $_COOKIE[BRLGPD_Constants::COOKIE_NAME] = $cookie;
         }

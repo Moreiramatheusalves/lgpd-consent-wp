@@ -24,7 +24,7 @@ final class BRLGPD_Constants
             'modal_desc'  => __('Escolha quais categorias você permite. Cookies necessários sempre estarão ativos.', 'br-lgpd-consent'),
 
             'renew_days' => 180,
-            'policy_version' => '1.0.0',
+            'policy_version' => '1.0.1',
 
             'show_manage_fab' => 0,
             'manage_text' => __('Gerenciar cookies', 'br-lgpd-consent'),
