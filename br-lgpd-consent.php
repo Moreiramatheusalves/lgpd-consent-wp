@@ -4,7 +4,7 @@
  * Plugin Name:       LGPD Consent BRENIAC
  * Plugin URI:        https://pluginswp.breniacsoftec.com/
  * Description:       Banner de consentimento LGPD com categorias, bloqueio de scripts e logs opcionais.
- * Version:           1.0.2
+ * Version:           1.0.4
  * Author:            BR Eniac SofTec
  * Author URI:        https://breniacsoftec.com
  * Text Domain:       br-lgpd-consent
@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) exit;
 define('BRLGPD_FILE', __FILE__);
 define('BRLGPD_DIR', plugin_dir_path(__FILE__));
 define('BRLGPD_URL', plugin_dir_url(__FILE__));
-define('BRLGPD_VERSION', '1.0.2');
+define('BRLGPD_VERSION', '1.0.4');
 
 require_once BRLGPD_DIR . 'includes/class-constants.php';
 require_once BRLGPD_DIR . 'includes/class-utils.php';

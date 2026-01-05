@@ -5,7 +5,7 @@ Tags: lgpd, cookies, consentimento, privacidade, gdpr, banner, modal, scripts co
 Requires at least: 5.8
 Tested up to: 6.6
 Requires PHP: 8.0
-Stable tag: 1.0.2
+Stable tag: 1.0.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,14 @@ Ele oferece um mecanismo técnico de consentimento e controle de scripts. A conf
 
 == Changelog ==
 
+= 1.0.4 =
+* Correção: correções de versão.
+* Melhoria: aumento de versão.
+
+= 1.0.3 =
+* Correção: correções de CSS.
+* Melhoria: aumento de versão para correções de css.
+
 = 1.0.2 =
 * Correção: correções de updater para usuarios atualizarem o plugin pelo painel do WP.
 * Melhoria: aumento de versão para updater funcionar corretamente.
@@ -93,6 +101,15 @@ Ele oferece um mecanismo técnico de consentimento e controle de scripts. A conf
 * Versão inicial do plugin.
 
 == Upgrade Notice ==
+
+= 1.0.4 =
+aumento de versão.
+
+= 1.0.3 =
+aumento de versão para correções de css.
+
+= 1.0.2 =
+aumento de versão para updater funcionar corretamente. 
 
 = 1.0.1 =
 Atualização recomendada. Corrige falhas em “Salvar preferências” e melhora a ativação de categorias novas em sites com cache e/ou cookie duplicado em paths diferentes.
