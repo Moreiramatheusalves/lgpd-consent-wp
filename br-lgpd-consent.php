@@ -47,3 +47,20 @@ register_activation_hook(__FILE__, function () {
 add_action('plugins_loaded', function () {
     BRLGPD_Plugin::instance();
 });
+
+if (is_admin()) {
+    $puc_path = WPAS_PLUGIN_DIR . 'vendor/plugin-update-checker/plugin-update-checker.php';
+    if (file_exists($puc_path)) {
+        require_once $puc_path;
+
+        $updateChecker = \YahnisElsts\PluginUpdateChecker\v5\PucFactory::buildUpdateChecker(
+            'https://github.com/Moreiramatheusalves/lgpd-consent-wp/',
+            __FILE__,
+            'lgpd-consent-wp'
+        );
+
+        $updateChecker->getVcsApi()->enableReleaseAssets();
+
+        $updateChecker->setBranch('main');
+    }
+}
