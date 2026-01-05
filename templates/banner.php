@@ -16,30 +16,37 @@ $choices = isset($data['choices']) && is_array($data['choices']) ? $data['choice
 
 <?php if (!$hide_banner): ?>
   <div id="brlgpd-banner" role="dialog" aria-live="polite" aria-label="<?php echo esc_attr($title); ?>">
-    <h4><?php echo esc_html($title); ?></h4>
-    <p><?php echo wp_kses_post($message); ?></p>
 
-    <?php if (!empty($data['show_policy_link']) && !empty($data['policy_url'])): ?>
-      <p style="margin-top:8px; font-size:13px;" class="brlgpd-policy-link">
-        <a href="<?php echo esc_url($data['policy_url']); ?>">
-          <?php echo esc_html($data['policy_link_text'] ?? 'Política de Cookies'); ?>
-        </a>
-      </p>
-    <?php endif; ?>
+    <div class="brlgpd-banner-left">
+      <h4><?php echo esc_html($title); ?></h4>
+      <p><?php echo wp_kses_post($message); ?></p>
 
-    <div class="brlgpd-actions">
-      <button type="button" class="brlgpd-btn brlgpd-btn-primary" data-brlgpd-action="accept">
-        <?php echo esc_html($btn_accept); ?>
-      </button>
-      <button type="button" class="brlgpd-btn brlgpd-btn-secondary" data-brlgpd-action="reject">
-        <?php echo esc_html($btn_reject); ?>
-      </button>
-      <button type="button" class="brlgpd-btn" data-brlgpd-action="open">
-        <?php echo esc_html($btn_prefs); ?>
-      </button>
+      <?php if (!empty($data['show_policy_link']) && !empty($data['policy_url'])): ?>
+        <p class="brlgpd-policy-link">
+          <a href="<?php echo esc_url($data['policy_url']); ?>">
+            <?php echo esc_html($data['policy_link_text'] ?? 'Política de Cookies'); ?>
+          </a>
+        </p>
+      <?php endif; ?>
     </div>
+
+    <div class="brlgpd-banner-right">
+      <div class="brlgpd-actions">
+        <button type="button" class="brlgpd-btn brlgpd-btn-primary" data-brlgpd-action="accept">
+          <?php echo esc_html($btn_accept); ?>
+        </button>
+        <button type="button" class="brlgpd-btn brlgpd-btn-secondary" data-brlgpd-action="reject">
+          <?php echo esc_html($btn_reject); ?>
+        </button>
+        <button type="button" class="brlgpd-btn" data-brlgpd-action="open">
+          <?php echo esc_html($btn_prefs); ?>
+        </button>
+      </div>
+    </div>
+
   </div>
 <?php endif; ?>
+
 
 <div id="brlgpd-modal-overlay" class="brlgpd-hidden" aria-hidden="true">
   <div id="brlgpd-modal" role="dialog" aria-modal="true" aria-label="<?php echo esc_attr($modal_title); ?>">
