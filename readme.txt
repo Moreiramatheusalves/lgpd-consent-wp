@@ -5,7 +5,7 @@ Tags: lgpd, cookies, consentimento, privacidade, gdpr, banner, modal, scripts co
 Requires at least: 5.8
 Tested up to: 6.6
 Requires PHP: 8.0
-Stable tag: 1.0.5
+Stable tag: 1.0.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -80,6 +80,10 @@ Ele oferece um mecanismo técnico de consentimento e controle de scripts. A conf
 
 == Changelog ==
 
+= 1.0.6 =
+* Correção: correções de cache evitando conflitos.
+* Melhoria: aumento de versão e correções de conflito de cache.
+
 = 1.0.5 =
 * Correção: correções de conflito de variavel.
 * Melhoria: aumento de versão e correções de conflito de variavel.
@@ -106,7 +110,10 @@ Ele oferece um mecanismo técnico de consentimento e controle de scripts. A conf
 
 == Upgrade Notice ==
 
-= 1.0.4 =
+= 1.0.6 =
+aumento de versão e correções de conflito de cache
+
+= 1.0.5 =
 aumento de versão e correção de variavel.
 
 = 1.0.4 =

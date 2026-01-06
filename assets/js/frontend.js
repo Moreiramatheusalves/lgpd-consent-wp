@@ -108,12 +108,33 @@
       });
     }
 
-    async function postAjax(action, extraFields) {
+    async function fetchFreshNonce() {
+      try {
+        const form = new URLSearchParams();
+        form.set("action", "brlgpd_get_nonce");
+
+        const res = await fetch(api.ajax_url, {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8" },
+          body: form.toString(),
+        });
+
+        const json = await res.json();
+        if (json && json.success && json.data && json.data.nonce) {
+          api.nonce = json.data.nonce;
+          return api.nonce;
+        }
+      } catch (e) { }
+      return null;
+    }
+
+    async function postAjax(action, extraFields, _retried) {
       setBusy(true);
       try {
         const form = new URLSearchParams();
         form.set("action", action);
-        form.set("nonce", api.nonce);
+        form.set("nonce", (typeof api.nonce === "string") ? api.nonce : "");
 
         if (extraFields) {
           Object.keys(extraFields).forEach((k) => form.set(k, extraFields[k]));
@@ -127,6 +148,20 @@
         });
 
         const json = await res.json();
+
+        if (
+          !_retried &&
+          json &&
+          json.success === false &&
+          json.data &&
+          json.data.message === "invalid_nonce"
+        ) {
+          const fresh = await fetchFreshNonce();
+          if (fresh) {
+            return await postAjax(action, extraFields, true);
+          }
+        }
+
         return json;
       } catch (e) {
         console.warn("BRLGPD: erro", e);
@@ -135,6 +170,7 @@
         setBusy(false);
       }
     }
+
 
     async function refreshStateAndUI() {
       const json = await postAjax("brlgpd_get_consent", null);

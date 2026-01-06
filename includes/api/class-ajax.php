@@ -10,6 +10,9 @@ final class BRLGPD_AJAX
 
         add_action('wp_ajax_brlgpd_get_consent', [__CLASS__, 'get_consent']);
         add_action('wp_ajax_nopriv_brlgpd_get_consent', [__CLASS__, 'get_consent']);
+
+        add_action('wp_ajax_brlgpd_get_nonce', [__CLASS__, 'get_nonce']);
+        add_action('wp_ajax_nopriv_brlgpd_get_nonce', [__CLASS__, 'get_nonce']);
     }
 
     public static function get_consent(): void
@@ -104,6 +107,22 @@ final class BRLGPD_AJAX
             'message' => 'saved',
             'choices' => $choices,
             'policy' => $policy,
+        ]);
+    }
+
+    public static function get_nonce(): void
+    {
+        $origin = isset($_SERVER['HTTP_ORIGIN']) ? (string)$_SERVER['HTTP_ORIGIN'] : '';
+        if ($origin) {
+            $originHost = parse_url($origin, PHP_URL_HOST);
+            $siteHost   = parse_url(home_url(), PHP_URL_HOST);
+            if ($originHost && $siteHost && strcasecmp($originHost, $siteHost) !== 0) {
+                wp_send_json_error(['message' => 'bad_origin'], 403);
+            }
+        }
+
+        wp_send_json_success([
+            'nonce' => wp_create_nonce('brlgpd_public'),
         ]);
     }
 }
